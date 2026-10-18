@@ -41,10 +41,10 @@ This is a benchmark command, running perft on several popular positions, without
 | 10    | 69,352,859,712,417    | 8,935 ms    | 7,761,790        |
 | 11    | 2,097,651,003,696,806 | 135,105 ms  | 15,526,100       |
 
-Start    = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-Kiwipete = "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -"
-Midgame  = "r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10"
-Endgame  = "5nk1/pp3pp1/2p4p/q7/2PPB2P/P5P1/1P5K/3Q4 w - - 1 28"
+Start    = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"  
+Kiwipete = "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -"  
+Midgame  = "r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10"  
+Endgame  = "5nk1/pp3pp1/2p4p/q7/2PPB2P/P5P1/1P5K/3Q4 w - - 1 28"  
 
 The cooling in my previous 9800x3d build was not optimal, so the performances were most likely decreased as it was temperature bound.
 
@@ -63,8 +63,8 @@ It is structured as follows:
 
 1. **King threats**
    - For each enemy piece, calculate their attacks bitboards. The king attacks are then substracted from this bitboard.
-   - The calculation of these attacks is optimized by only taking care of pieces that are actually in the king's range (for knights, bishops, rooks and queens)
-2  **Find discovers**
+   - The calculation of these attacks is optimized by only taking care of pieces that are actually in the king's range (for knights, bishops, rooks and queens).
+2. **Find discovers**
    - This is used for the king checks. We take a bitboard of all the pieces that are between ally sliders and the enemy king. This bitboard is then used to efficiently determine whether a piece in that bitboard causes a discover check or not.
 3. **King moves**  
    - Because no matter how many checks, the only piece that can always move is the King.
