@@ -4,24 +4,56 @@
 
 This project was inspired by [Gigantua](https://github.com/Gigantua/Gigantua), and a desire to push the limits. Although most of the logic is my own, I had no idea about bmi instructions and templates before starting the project, so Gigantua's source code was of immense help to discover these concepts. Credit where credit is due! You will find some code that I took from there.
 
-Executable: [Download chessbit](https://github.com/thuijbregts/chessbit/releases/download/release/chessbit__arch_AVX2.exe) (It is optimized for AVX2 architecture, you may have to compile it yourself)
+Executable: [Download chessbit](https://github.com/thomashuijbregts/chessbit/releases/download/v1/chessbit_avx2.exe) (It is optimized for AVX2 architecture, you may have to compile it yourself)
 
-Here are some numbers on an AMD Ryzen 7 9800x3d. Chessbit is able to calculate some positions at over 8BNodes/s on this CPU
+Here are some numbers on an AMD Ryzen 7 9800x3d and AMD Ryzen 9 9950x. Chessbit is able to calculate some positions at over 9BNodes/s on the 9950x.
 
 This is a benchmark command, running perft on several popular positions, without Transposition Table. It can compute depth 7 of the initial position in about 400ms.
 
-![](https://i.imgur.com/Y2KVGtp.png)
+### Perft (single thread without TT) - Ryzen 7 9800x3d
 
-Perft at depth 10, with Transposition Table enabled (16GB)
+| Position | Depth | Nodes          | Time     | Speed (MNodes/s) |
+|----------|------:|---------------:|---------:|-----------------:|
+| Start    | 7     | 3,195,901,860  | 397 ms   | 8,032.41         |
+| Kiwipete | 6     | 8,031,647,685  | 1,183 ms | 6,784.65         |
+| Midgame  | 6     | 6,923,051,137  | 827 ms   | 8,362.98         |
+| Endgame  | 7     | 24,958,831,314 | 3,907 ms | 6,387.10         |
 
-![](https://i.imgur.com/AQgI1cz.png)
+### Perft 10 from the starting position (multithread with TT) - Ryzen 7 9800x3d
+
+| Depth | Nodes              | Time      | Speed (MNodes/s) |
+|------:|-------------------:|----------:|-----------------:|
+| 10    | 69,352,859,712,417 | 18,671 ms | 3,714,360        |
+
+### Perft (single thread without TT) - Ryzen 9 9950x
+
+| Position | Depth | Nodes          | Time     | Speed (MNodes/s) |
+|----------|------:|---------------:|---------:|-----------------:|
+| Start    | 7     | 3,195,901,860  | 356 ms   | 8,973.47         |
+| Kiwipete | 6     | 8,031,647,685  | 1,079 ms | 7,443.55         |
+| Midgame  | 6     | 6,923,051,137  | 735 ms   | 9,413.16         |
+| Endgame  | 7     | 24,958,831,314 | 3,553 ms | 7,024.37         |
+
+### Perft 10 and 11 from the starting position (multithread with TT) - Ryzen 9 9950x
+
+| Depth | Nodes                 | Time        | Speed (MNodes/s) |
+|------:|----------------------:|------------:|-----------------:|
+| 10    | 69,352,859,712,417    | 8,935 ms    | 7,761,790        |
+| 11    | 2,097,651,003,696,806 | 135,105 ms  | 15,526,100       |
+
+Start    = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+Kiwipete = "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -"
+Midgame  = "r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10"
+Endgame  = "5nk1/pp3pp1/2p4p/q7/2PPB2P/P5P1/1P5K/3Q4 w - - 1 28"
+
+The cooling in my previous 9800x3d build was not optimal, so the performances were most likely decreased as it was temperature bound.
 
 ## A little about the implementation...
 ### Overall
 The engine is written in c++, using bitboards as the board representation, as well as making use of the **Parallel Bits Extract** (PEXT) bmi2 instruction for the bishop and rook attack tables.
-The code is compiled with the Intel c++ compiler 2025 (incorporated into Visual Studio) with the following options:
+The code is compiled with the Intel c++ compiler 2026 (incorporated into Visual Studio) with the following options:
 
-/GS /GA /W3 /Gy /Zc:wchar_t /Zi /O3 /Ob2 /D "NDEBUG" /D "_CONSOLE" /D "__INTEL_LLVM_COMPILER=20250201" /D "_UNICODE" /D "UNICODE" /Qipo /Zc:forScope /std:c17 /Oi /MD /std:c++20 /Fa"x64\Release\" /EHsc /nologo /Fo"x64\Release\" /Ot /Fp"x64\Release\chessbit.pch" /bigobj -mbmi2 -mbmi -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH /QxAVX2 
+/GS- /GA /W3 /Gy /Zc:wchar_t /O3 /Ob2 /Qipo /Zc:forScope /std:c17 /Oi /MD /std:c++20 /Ot -march=core-avx2
 
 The Intel compiler is doing a great job at optimizing the code. I recommend.
 
@@ -29,9 +61,14 @@ The Intel compiler is doing a great job at optimizing the code. I recommend.
 After much optimization, the code is actually quite compact, with a main recursive function doing the heavy lifting.
 It is structured as follows:
 
-1. **King moves**  
+1. **King threats**
+   - For each enemy piece, calculate their attacks bitboards. The king attacks are then substracted from this bitboard.
+   - The calculation of these attacks is optimized by only taking care of pieces that are actually in the king's range (for knights, bishops, rooks and queens)
+2  **Find discovers**
+   - This is used for the king checks. We take a bitboard of all the pieces that are between ally sliders and the enemy king. This bitboard is then used to efficiently determine whether a piece in that bitboard causes a discover check or not.
+3. **King moves**  
    - Because no matter how many checks, the only piece that can always move is the King.
-2. **Checks evaluation**  - Return if there are 2 checks, as only the King can move.
+4. **Checks evaluation**  - Return if there are 2 checks, as only the King can move.
 
    a. **Find pins**  
       - Split between Bishop and Rook pins.  
@@ -40,7 +77,7 @@ It is structured as follows:
    b. **Check check piece**  
       - In case of pawn or knight, only captures are possible, so we have a specific branch for that.  
       - In other cases, generate normal moves (minus en passant, because if a single check occurs that is not a pawn, then en passant is not possible), into the pin masks.
-4. **If there are no checks**  
+5. **If there are no checks**  
    a. **Find pins**
    
    b. **Generate all moves**  
@@ -194,6 +231,24 @@ ForceInline U64 passantPinMask(const BoardState& board, int from) {
 </pre>
 
 This just removes the two pawns from the board, then checks Rook attacks between the King and Rooks/Queens, then returns a mask (either 0 or all 1s if not pinned) that is then used to validate the EP bit.
+
+### Null move
+
+This is an idea that I came across on TalkChess, unfortunately I do not find the original thread.
+The idea is as follows: at depth 2, you execute a search at depth 1 (bulk counting) without moving any piece. The result of this search is actually the same for every quiet move in this position. In this context, a quiet move is a move that does not change the attacks of any piece at the next depth, meaning they do not interact with the attack rays of the enemy pieces.
+I have then improved on this idea, by also including moves that only changed the total by a predictable margin, specifically for pawns. Thus, by processing the squares blocking pawn attacks and forward moves, one can simply add/substract to the null move count without recalculating pawn moves, which is a significant speed gain.
+From the starting position, most moves are quiet, and the null move technique increases the speed by about 100%. It is less in mid game positions, where positions are more noisy, but still always positive. It is therefore a must, as it has no downsides.
+
+I had also an idea to include captures in the null move calculation, but I couldn't find a way that was not slower, as it involved calculating for every capture 1) the attacks of the captured piece and 2) the attacks of the pieces protecting that captured piece, which I couldn't make work without using 64 squares arrays, ergo slower.
+
+### Batch for the transposition table
+
+The fastest way to generate moves that I found is to not use a move list, and instead execute the move as soon as it is found (you can see this clearly in the code).
+However, when the transposition table is enabled, probing the entries becomes a real bottleneck. For that reason, moves are added in a move list for depth 3 and higher (it is slower for depth 2 and 1). By adding moves in a batch, they can be prefetched directly while the rest of the move generation occurs, enabling the TT prefetching to its full potential. This is a significant speed increase, especially useful for multithreading.
+
+### Large pages for the transposition table
+
+When dealing with larger transposition tables, cache misses can be a real speed drag. For that reason, large pages are enabled to reduce cache misses.
 
 ### Other improvements
 
