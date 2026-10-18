@@ -41,10 +41,12 @@ This is a benchmark command, running perft on several popular positions, without
 | 10    | 69,352,859,712,417    | 8,935 ms    | 7,761,790        |
 | 11    | 2,097,651,003,696,806 | 135,105 ms  | 15,526,100       |
 
+<pre>
 Start    = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"  
 Kiwipete = "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -"  
 Midgame  = "r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10"  
 Endgame  = "5nk1/pp3pp1/2p4p/q7/2PPB2P/P5P1/1P5K/3Q4 w - - 1 28"  
+</pre>
 
 The cooling in my previous 9800x3d build was not optimal, so the performances were most likely decreased as it was temperature bound.
 
@@ -53,7 +55,7 @@ The cooling in my previous 9800x3d build was not optimal, so the performances we
 The engine is written in c++, using bitboards as the board representation, as well as making use of the **Parallel Bits Extract** (PEXT) bmi2 instruction for the bishop and rook attack tables.
 The code is compiled with the Intel c++ compiler 2026 (incorporated into Visual Studio) with the following options:
 
-/GS- /GA /W3 /Gy /Zc:wchar_t /O3 /Ob2 /Qipo /Zc:forScope /std:c17 /Oi /MD /std:c++20 /Ot -march=core-avx2
+<pre>/GS- /GA /W3 /Gy /Zc:wchar_t /O3 /Ob2 /Qipo /Zc:forScope /std:c17 /Oi /MD /std:c++20 /Ot -march=core-avx2</pre>
 
 The Intel compiler is doing a great job at optimizing the code. I recommend.
 
