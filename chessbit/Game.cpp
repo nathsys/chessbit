@@ -12,7 +12,7 @@ using std::string;
 
 namespace game {
     int moveCount;
-    bstate::BoardState board = bstate::dummy;
+    bstate::BoardState board;
 
     void printBoard(U64 bitboard) {
         for (int rank = 0; rank < 8; rank++)

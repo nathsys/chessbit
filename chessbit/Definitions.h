@@ -36,8 +36,6 @@ namespace defs {
 
 	enum Pieces { p, n, b, r, q, k, noPiece };
 
-	enum class Piece { Pawn, Knight, Bishop, Rook, Queen, King };
-
 	enum Sides { white, black, both };
 
 	enum CastlingPerms { wk = 1, wq = 2, bk = 4, bq = 8 };

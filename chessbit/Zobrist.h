@@ -451,7 +451,70 @@ namespace zobrist {
 		{ 0x33116A49B37A929A, 0x9C9E1AB80162BCBF }
 	};
 
-	constexpr Zobrist EN_PASSANT[9] = {
+	constexpr Zobrist EN_PASSANT[65] = {
+		{ 0x31D71DCE64B2C310, 0xBEC3D45B661EE332 },
+		{ 0xF165B587DF898190, 0x1BD60B7834B71A73 },
+		{ 0xA57E6339DD2CF3A0, 0x21BE4BF3C6A7B1FF },
+		{ 0x1EF6E6DBB1961EC9, 0x8DAFAA179CC4D33B },
+		{ 0x70CC73D90BC26E24, 0x7D38FF8FC871479A },
+		{ 0xE21A6B35DF0C3AD7, 0xE4F737DC80D92BE8 },
+		{ 0x003A93D8B2806962, 0xCD89AA3E63705485 },
+		{ 0x1C99DED33CB890A1, 0xBCFEC7E5D5ABC8FE },
+
+		{ 0x31D71DCE64B2C310, 0xBEC3D45B661EE332 },
+		{ 0xF165B587DF898190, 0x1BD60B7834B71A73 },
+		{ 0xA57E6339DD2CF3A0, 0x21BE4BF3C6A7B1FF },
+		{ 0x1EF6E6DBB1961EC9, 0x8DAFAA179CC4D33B },
+		{ 0x70CC73D90BC26E24, 0x7D38FF8FC871479A },
+		{ 0xE21A6B35DF0C3AD7, 0xE4F737DC80D92BE8 },
+		{ 0x003A93D8B2806962, 0xCD89AA3E63705485 },
+		{ 0x1C99DED33CB890A1, 0xBCFEC7E5D5ABC8FE },
+
+		{ 0x31D71DCE64B2C310, 0xBEC3D45B661EE332 },
+		{ 0xF165B587DF898190, 0x1BD60B7834B71A73 },
+		{ 0xA57E6339DD2CF3A0, 0x21BE4BF3C6A7B1FF },
+		{ 0x1EF6E6DBB1961EC9, 0x8DAFAA179CC4D33B },
+		{ 0x70CC73D90BC26E24, 0x7D38FF8FC871479A },
+		{ 0xE21A6B35DF0C3AD7, 0xE4F737DC80D92BE8 },
+		{ 0x003A93D8B2806962, 0xCD89AA3E63705485 },
+		{ 0x1C99DED33CB890A1, 0xBCFEC7E5D5ABC8FE },
+
+		{ 0x31D71DCE64B2C310, 0xBEC3D45B661EE332 },
+		{ 0xF165B587DF898190, 0x1BD60B7834B71A73 },
+		{ 0xA57E6339DD2CF3A0, 0x21BE4BF3C6A7B1FF },
+		{ 0x1EF6E6DBB1961EC9, 0x8DAFAA179CC4D33B },
+		{ 0x70CC73D90BC26E24, 0x7D38FF8FC871479A },
+		{ 0xE21A6B35DF0C3AD7, 0xE4F737DC80D92BE8 },
+		{ 0x003A93D8B2806962, 0xCD89AA3E63705485 },
+		{ 0x1C99DED33CB890A1, 0xBCFEC7E5D5ABC8FE },
+
+		{ 0x31D71DCE64B2C310, 0xBEC3D45B661EE332 },
+		{ 0xF165B587DF898190, 0x1BD60B7834B71A73 },
+		{ 0xA57E6339DD2CF3A0, 0x21BE4BF3C6A7B1FF },
+		{ 0x1EF6E6DBB1961EC9, 0x8DAFAA179CC4D33B },
+		{ 0x70CC73D90BC26E24, 0x7D38FF8FC871479A },
+		{ 0xE21A6B35DF0C3AD7, 0xE4F737DC80D92BE8 },
+		{ 0x003A93D8B2806962, 0xCD89AA3E63705485 },
+		{ 0x1C99DED33CB890A1, 0xBCFEC7E5D5ABC8FE },
+
+		{ 0x31D71DCE64B2C310, 0xBEC3D45B661EE332 },
+		{ 0xF165B587DF898190, 0x1BD60B7834B71A73 },
+		{ 0xA57E6339DD2CF3A0, 0x21BE4BF3C6A7B1FF },
+		{ 0x1EF6E6DBB1961EC9, 0x8DAFAA179CC4D33B },
+		{ 0x70CC73D90BC26E24, 0x7D38FF8FC871479A },
+		{ 0xE21A6B35DF0C3AD7, 0xE4F737DC80D92BE8 },
+		{ 0x003A93D8B2806962, 0xCD89AA3E63705485 },
+		{ 0x1C99DED33CB890A1, 0xBCFEC7E5D5ABC8FE },
+
+		{ 0x31D71DCE64B2C310, 0xBEC3D45B661EE332 },
+		{ 0xF165B587DF898190, 0x1BD60B7834B71A73 },
+		{ 0xA57E6339DD2CF3A0, 0x21BE4BF3C6A7B1FF },
+		{ 0x1EF6E6DBB1961EC9, 0x8DAFAA179CC4D33B },
+		{ 0x70CC73D90BC26E24, 0x7D38FF8FC871479A },
+		{ 0xE21A6B35DF0C3AD7, 0xE4F737DC80D92BE8 },
+		{ 0x003A93D8B2806962, 0xCD89AA3E63705485 },
+		{ 0x1C99DED33CB890A1, 0xBCFEC7E5D5ABC8FE },
+
 		{ 0x31D71DCE64B2C310, 0xBEC3D45B661EE332 },
 		{ 0xF165B587DF898190, 0x1BD60B7834B71A73 },
 		{ 0xA57E6339DD2CF3A0, 0x21BE4BF3C6A7B1FF },
@@ -470,7 +533,7 @@ namespace zobrist {
 		if (side == black) z ^= SIDE;
 
 		z ^= CASTLINGS[casPerms];
-		if (eP != noSquare) z ^= EN_PASSANT[FILES[eP]];
+		if (eP != noSquare) z ^= EN_PASSANT[eP];
 
 		for (int i = 0; i < 2; i++) {
 			U64 pM = pieces[i][p], nM = pieces[i][n], bM = pieces[i][b];
@@ -485,48 +548,51 @@ namespace zobrist {
 		return z;
 	}
 
-	template <Piece piece, bool side, bool capture>
+	template <Pieces piece, bool side, bool capture>
 	ForceInline Zobrist basic(int from, int to, int casPerms, int prevCP, int prevEP,
 		U64 pE, U64 nE, U64 bE, U64 rE, U64 qE, Zobrist z) {
-		if constexpr (Piece::Pawn == piece)   z ^= PAWNS[side][from] ^ PAWNS[side][to];
-		if constexpr (Piece::Knight == piece) z ^= KNIGHTS[side][from] ^ KNIGHTS[side][to];
-		if constexpr (Piece::Bishop == piece) z ^= BISHOPS[side][from] ^ BISHOPS[side][to];
-		if constexpr (Piece::Rook == piece)   z ^= ROOKS[side][from] ^ ROOKS[side][to];
-		if constexpr (Piece::Queen == piece)  z ^= QUEENS[side][from] ^ QUEENS[side][to];
-		if constexpr (Piece::King == piece)   z ^= KINGS[side][from] ^ KINGS[side][to];
+		if constexpr (p == piece) z ^= PAWNS[side][from] ^ PAWNS[side][to];
+		if constexpr (n == piece) z ^= KNIGHTS[side][from] ^ KNIGHTS[side][to];
+		if constexpr (b == piece) z ^= BISHOPS[side][from] ^ BISHOPS[side][to];
+		if constexpr (r == piece) z ^= ROOKS[side][from] ^ ROOKS[side][to];
+		if constexpr (q == piece) z ^= QUEENS[side][from] ^ QUEENS[side][to];
+		if constexpr (k == piece) z ^= KINGS[side][from] ^ KINGS[side][to];
 
 		z ^= SIDE;
 
-		z ^= EN_PASSANT[FILES[prevEP]];
-		z ^= CASTLINGS[prevCP] ^ CASTLINGS[casPerms];
+		z ^= EN_PASSANT[prevEP];
+		if constexpr (k == piece || r == piece) z ^= CASTLINGS[prevCP] ^ CASTLINGS[casPerms];
 
 		if constexpr (capture) {
 			const U64 t = (1ULL << to);
 			if (pE & t) z ^= PAWNS[!side][to];
 			else if (nE & t) z ^= KNIGHTS[!side][to];
 			else if (bE & t) z ^= BISHOPS[!side][to];
-			else if (rE & t) z ^= ROOKS[!side][to];
+			else if (rE & t) {
+				z ^= ROOKS[!side][to];
+				if constexpr (k != piece && r != piece) z ^= CASTLINGS[prevCP] ^ CASTLINGS[casPerms];
+			}
 			else if (qE & t) z ^= QUEENS[!side][to];
 		}
 		return z;
 	}
 
-	template <Piece piece, bool side, bool capture>
+	template <Pieces piece, bool side, bool capture>
 	ForceInline Zobrist promotion(int from, int to, int casPerms, int prevCP, int prevEP,
 		U64 nE, U64 bE, U64 rE, U64 qE, Zobrist z) {
 		z ^= PAWNS[side][from];
 
-		if constexpr (Piece::Knight == piece) z ^= KNIGHTS[side][to];
-		if constexpr (Piece::Bishop == piece) z ^= BISHOPS[side][to];
-		if constexpr (Piece::Rook == piece)   z ^= ROOKS[side][to];
-		if constexpr (Piece::Queen == piece)  z ^= QUEENS[side][to];
+		if constexpr (n == piece) z ^= KNIGHTS[side][to];
+		if constexpr (b == piece) z ^= BISHOPS[side][to];
+		if constexpr (r == piece) z ^= ROOKS[side][to];
+		if constexpr (q == piece) z ^= QUEENS[side][to];
 
 		z ^= SIDE;
-		z ^= EN_PASSANT[FILES[prevEP]];
+		z ^= EN_PASSANT[prevEP];
 
 		if constexpr (capture) {
 			const U64 t = (1ULL << to);
-			if (nE & t) z ^= KNIGHTS[!side][to];
+			if (nE & t)		 z ^= KNIGHTS[!side][to];
 			else if (bE & t) z ^= BISHOPS[!side][to];
 			else if (rE & t) {
 				z ^= CASTLINGS[prevCP] ^ CASTLINGS[casPerms];
@@ -541,9 +607,8 @@ namespace zobrist {
 	ForceInline Zobrist doublePush(int from, int to, int eP, int prevEP, Zobrist z) {
 		z ^= PAWNS[side][from] ^ PAWNS[side][to];
 		z ^= SIDE;
-
-		z ^= EN_PASSANT[FILES[prevEP]];
-		z ^= EN_PASSANT[FILES[eP]];
+		z ^= EN_PASSANT[prevEP];
+		z ^= EN_PASSANT[eP];
 		return z;
 	}
 
@@ -552,23 +617,22 @@ namespace zobrist {
 		z ^= PAWNS[side][from] ^ PAWNS[side][to];
 		z ^= PAWNS[!side][ePS];
 		z ^= SIDE;
-		z ^= EN_PASSANT[FILES[prevEP]];
+		z ^= EN_PASSANT[prevEP];
 		return z;
 	}
 
 	template <int castlingSide>
 	ForceInline Zobrist castle(int casPerms, int prevCP, int prevEP, Zobrist z) {
 		constexpr int  fromK = CASTLING_KING_SOURCE_SQUARE[castlingSide];
-		constexpr int  toK = CASTLING_KING_TARGET_SQUARE[castlingSide];
+		constexpr int  toK   = CASTLING_KING_TARGET_SQUARE[castlingSide];
 		constexpr int  fromR = CASTLING_ROOK_SOURCE_SQUARE[castlingSide];
-		constexpr int  toR = CASTLING_ROOK_TARGET_SQUARE[castlingSide];
-		constexpr bool side = CASTLING_SIDE[castlingSide];
+		constexpr int  toR   = CASTLING_ROOK_TARGET_SQUARE[castlingSide];
+		constexpr bool side  = CASTLING_SIDE[castlingSide];
 
 		z ^= KINGS[side][fromK] ^ KINGS[side][toK];
 		z ^= ROOKS[side][fromR] ^ ROOKS[side][toR];
 		z ^= SIDE;
-
-		z ^= EN_PASSANT[FILES[prevEP]];
+		z ^= EN_PASSANT[prevEP];
 		z ^= CASTLINGS[prevCP] ^ CASTLINGS[casPerms];
 		return z;
 	}

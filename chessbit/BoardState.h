@@ -66,15 +66,15 @@ namespace bstate {
 
         }
 
-        template <Piece piece, bool side, bool capture, uint8_t kMoved, bool useZobrist>
+        template <Pieces piece, bool side, bool capture, uint8_t kMoved, bool useZobrist>
         ForceInline BoardState make(int from, int to, const BoardState& board, U64 discovers) noexcept {
             constexpr bool kMMoved = kMoved & KING_MOVED[side];
             constexpr bool kEMoved = kMoved & KING_MOVED[!side];
 
             int casPerms = board.casPerms;
             if constexpr (!kMMoved) {
-                if      constexpr (Piece::Rook == piece)    casPerms &= NO_CASTLE_ROOK[from];
-                else if constexpr (Piece::King == piece)    casPerms &= NO_CASTLE[side];
+                if      constexpr (r == piece) casPerms &= NO_CASTLE_ROOK[from];
+                else if constexpr (k == piece) casPerms &= NO_CASTLE[side];
             }
             if constexpr (capture && !kEMoved) {
                 casPerms &= NO_CASTLE_ROOK[to];
@@ -101,29 +101,29 @@ namespace bstate {
 
             U64 checks = 0ULL;
 
-            if constexpr (Piece::Pawn == piece) {
+            if constexpr (p == piece) {
                 pM ^= move;
                 checks |= PAWN_CAPTURES[!side][board.kES] & pM;
             }
-            if constexpr (Piece::Knight == piece) {
+            if constexpr (n == piece) {
                 nM ^= move;
                 checks |= KNIGHT_ATTACKS[board.kES] & nM;
             }
-            if constexpr (Piece::Bishop == piece) {
+            if constexpr (b == piece) {
                 bM ^= move;
                 if ((BISHOP_XRAYS[board.kES] & t) && !(PIN_MASKS[board.kES][to] & occB)) [[unlikely]] checks |= t;
             }
-            if constexpr (Piece::Rook == piece) {
+            if constexpr (r == piece) {
                 rM ^= move;
                 if ((ROOK_XRAYS[board.kES] & t) && !(PIN_MASKS[board.kES][to] & occB)) [[unlikely]] checks |= t;
             }
-            if constexpr (Piece::Queen == piece) {
+            if constexpr (q == piece) {
                 qM ^= move;
                 if ((QUEEN_XRAYS[board.kES] & t) && !(PIN_MASKS[board.kES][to] & occB)) [[unlikely]] checks |= t;
             }
-            if constexpr (Piece::King == piece) kM ^= move;
+            if constexpr (k == piece) kM ^= move;
 
-            if constexpr (Piece::Queen != piece) {
+            if constexpr (q != piece) {
                 if (discovers) [[unlikely]] {
                     U64 disc = discovers & DISCOVER_RAYS[board.kES][from];
                     if (disc && !(DISCOVER_RAYS[board.kES][to] & disc)) [[unlikely]] checks |= disc;
@@ -133,16 +133,16 @@ namespace bstate {
             if constexpr (capture) {
                 occE ^= t;
 
-                if constexpr (Piece::King == piece)         return BoardState(board.pE & occE, board.nE & occE, board.bE & occE, board.rE & occE, board.qE & occE, board.kE, pM, nM, bM, rM, qM, kM, board.kES, to, board.kEA, getKingAttacks(to), occE, occM, occB, checks, casPerms, noSquare, !side, zobrist);
-                else                                        return BoardState(board.pE & occE, board.nE & occE, board.bE & occE, board.rE & occE, board.qE & occE, board.kE, pM, nM, bM, rM, qM, kM, board.kES, board.kMS, board.kEA, board.kMA, occE, occM, occB, checks, casPerms, noSquare, !side, zobrist);
+                if constexpr (k == piece) return BoardState(board.pE & occE, board.nE & occE, board.bE & occE, board.rE & occE, board.qE & occE, board.kE, pM, nM, bM, rM, qM, kM, board.kES, to, board.kEA, getKingAttacks(to), occE, occM, occB, checks, casPerms, noSquare, !side, zobrist);
+                else                      return BoardState(board.pE & occE, board.nE & occE, board.bE & occE, board.rE & occE, board.qE & occE, board.kE, pM, nM, bM, rM, qM, kM, board.kES, board.kMS, board.kEA, board.kMA, occE, occM, occB, checks, casPerms, noSquare, !side, zobrist);
             }
             else {
-                if constexpr (Piece::King == piece)         return BoardState(board.pE, board.nE, board.bE, board.rE, board.qE, board.kE, pM, nM, bM, rM, qM, kM, board.kES, to, board.kEA, getKingAttacks(to), occE, occM, occB, checks, casPerms, noSquare, !side, zobrist);
-                else                                        return BoardState(board.pE, board.nE, board.bE, board.rE, board.qE, board.kE, pM, nM, bM, rM, qM, kM, board.kES, board.kMS, board.kEA, board.kMA, occE, occM, occB, checks, casPerms, noSquare, !side, zobrist);
+                if constexpr (k == piece) return BoardState(board.pE, board.nE, board.bE, board.rE, board.qE, board.kE, pM, nM, bM, rM, qM, kM, board.kES, to, board.kEA, getKingAttacks(to), occE, occM, occB, checks, casPerms, noSquare, !side, zobrist);
+                else                      return BoardState(board.pE, board.nE, board.bE, board.rE, board.qE, board.kE, pM, nM, bM, rM, qM, kM, board.kES, board.kMS, board.kEA, board.kMA, occE, occM, occB, checks, casPerms, noSquare, !side, zobrist);
             }
         }
 
-        template <Piece piece, bool side, bool capture, uint8_t kMoved, bool useZobrist>
+        template <Pieces piece, bool side, bool capture, uint8_t kMoved, bool useZobrist>
         ForceInline BoardState makePromotion(int from, int to, const BoardState& board, U64 discovers) noexcept {
             constexpr bool kEMoved = kMoved & KING_MOVED[!side];
 
@@ -170,19 +170,19 @@ namespace bstate {
 
             U64 checks = 0ULL;
 
-            if constexpr (Piece::Knight == piece) {
+            if constexpr (n == piece) {
                 nM ^= t;
                 checks |= KNIGHT_ATTACKS[board.kES] & nM;
             }
-            if constexpr (Piece::Bishop == piece) {
+            if constexpr (b == piece) {
                 bM ^= t;
                 if ((BISHOP_XRAYS[board.kES] & t) && !(PIN_MASKS[board.kES][to] & occB)) [[unlikely]] checks |= t;
             }
-            if constexpr (Piece::Rook == piece) {
+            if constexpr (r == piece) {
                 rM ^= t;
                 if ((ROOK_XRAYS[board.kES] & t) && !(PIN_MASKS[board.kES][to] & occB)) [[unlikely]] checks |= t;
             }
-            if constexpr (Piece::Queen == piece) {
+            if constexpr (q == piece) {
                 qM ^= t;
                 if ((QUEEN_XRAYS[board.kES] & t) && !(PIN_MASKS[board.kES][to] & occB)) [[unlikely]] checks |= t;
             }
@@ -280,15 +280,5 @@ namespace bstate {
         ForceInline BoardState makeNull(const BoardState& board) noexcept {
             return BoardState(board.pE, board.nE, board.bE, board.rE, board.qE, board.kE, board.pM, board.nM, board.bM, board.rM, board.qM, board.kM, board.kES, board.kMS, board.kEA, board.kMA, board.occE, board.occM, board.occB, 0, board.casPerms, noSquare, !board.side, board.zobrist);
         }
-    };
-
-    inline static BoardState dummy = BoardState(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, { 0, 0 });
-
-    struct Entry {
-        BoardState board;
-        int qty;
-
-        constexpr Entry() : board(dummy), qty(0) {}
-        constexpr Entry(const BoardState& board, int qty) : board(board), qty(qty) {}
     };
 }

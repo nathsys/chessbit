@@ -17,7 +17,7 @@ namespace moveinfo {
 
         bstate::BoardState board;
 
-        constexpr MoveInfo() : type(Normal), from(0), to(0), promo(0), capture(0), board(bstate::dummy) { }
+        constexpr MoveInfo() : type(Normal), from(0), to(0), promo(0), capture(0), board() { }
 
         constexpr MoveInfo(int from, int to, int promo, bool capture, const bstate::BoardState& board) :
             type(Promotion), from(from), to(to), promo(promo), capture(capture), board(board) { }
